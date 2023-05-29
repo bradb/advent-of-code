@@ -1,8 +1,33 @@
 defmodule AoC2021.Day1 do
-  def run(path) do
+  def part1(path) do
     read_depths(path)
     |> count_depth_increases()
     |> IO.puts()
+  end
+
+  def part2(path) do
+    read_depths(path)
+    |> sliding_windows(3)
+    |> count_depth_increases()
+    |> IO.puts()
+  end
+
+  def sliding_windows(xs, n) do
+    do_sw(xs, n, [])
+  end
+
+  defp do_sw([], _, windows) do
+    Enum.reverse(windows)
+  end
+
+  defp do_sw(xs, n, windows) do
+    w = Enum.take(xs, n)
+
+    if Enum.count(w) == n do
+      do_sw(tl(xs), n, [Enum.sum(w) | windows])
+    else
+      do_sw([], n, windows)
+    end
   end
 
   def count_depth_increases(depths) do
@@ -28,4 +53,5 @@ defmodule AoC2021.Day1 do
   end
 end
 
-AoC2021.Day1.run("./data/day1.txt")
+AoC2021.Day1.part1("./data/day1.txt")
+AoC2021.Day1.part2("./data/day1.txt")
