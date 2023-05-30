@@ -1,9 +1,7 @@
 defmodule AoC.Day2 do
   def part1(path) do
-    input = File.stream!(path)
-
     %{d: d, h: h} =
-      input
+      File.stream!(path)
       |> Stream.map(&String.trim/1)
       |> Stream.map(fn s -> String.split(s, " ") end)
       |> Enum.reduce(
@@ -23,10 +21,8 @@ defmodule AoC.Day2 do
   end
 
   def part2(path) do
-    input = File.stream!(path)
-
     %{d: d, h: h} =
-      input
+      File.stream!(path)
       |> Stream.map(&String.trim/1)
       |> Stream.map(fn s -> String.split(s, " ") end)
       |> Enum.reduce(
