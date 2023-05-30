@@ -4,20 +4,17 @@ defmodule AoC.Day2 do
 
     %{d: d, h: h} =
       input
-      |> Enum.map(&String.trim/1)
-      |> Enum.map(fn s -> String.split(s, " ") end)
+      |> Stream.map(&String.trim/1)
+      |> Stream.map(fn s -> String.split(s, " ") end)
       |> Enum.reduce(
         %{d: 0, h: 0},
-        fn [direction, step], acc ->
+        fn [direction, step], %{h: h, d: d} ->
+          step = String.to_integer(step)
+
           case direction do
-            "forward" ->
-              Map.update!(acc, :h, fn v -> v + String.to_integer(step) end)
-
-            "down" ->
-              Map.update!(acc, :d, fn v -> v + String.to_integer(step) end)
-
-            "up" ->
-              Map.update!(acc, :d, fn v -> v - String.to_integer(step) end)
+            "forward" -> %{h: h + step, d: d}
+            "down" -> %{h: h, d: d + step}
+            "up" -> %{h: h, d: d - step}
           end
         end
       )
@@ -30,21 +27,17 @@ defmodule AoC.Day2 do
 
     %{d: d, h: h} =
       input
-      |> Enum.map(&String.trim/1)
-      |> Enum.map(fn s -> String.split(s, " ") end)
+      |> Stream.map(&String.trim/1)
+      |> Stream.map(fn s -> String.split(s, " ") end)
       |> Enum.reduce(
         %{d: 0, h: 0, a: 0},
-        fn [direction, step], acc = %{a: a} ->
+        fn [direction, step], %{d: d, h: h, a: a} ->
+          step = String.to_integer(step)
+
           case direction do
-            "forward" ->
-              Map.update!(acc, :h, fn v -> v + String.to_integer(step) end)
-              |> Map.update!(:d, fn v -> v + a * String.to_integer(step) end)
-
-            "down" ->
-              Map.update!(acc, :a, fn v -> v + String.to_integer(step) end)
-
-            "up" ->
-              Map.update!(acc, :a, fn v -> v - String.to_integer(step) end)
+            "forward" -> %{d: d + a * step, h: h + step, a: a}
+            "down" -> %{d: d, h: h, a: a + step}
+            "up" -> %{d: d, h: h, a: a - step}
           end
         end
       )
