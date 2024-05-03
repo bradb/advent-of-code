@@ -2,3 +2,5 @@
 .clj-kondo
 .portal
 *.dump
+.cpcache/
+.nrepl-port
