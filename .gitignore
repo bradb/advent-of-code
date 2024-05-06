@@ -4,3 +4,4 @@
 *.dump
 .cpcache/
 .nrepl-port
+*.~undo-tree~

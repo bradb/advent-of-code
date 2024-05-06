@@ -31,11 +31,6 @@ zoneight234
             0
             xs)))
 
-(comment
-  (part1 (-> "day-1.txt"
-                  io/resource
-                  slurp)))
-
 (def ^:private word->digit {"one" 1
                             "two" 2
                             "three" 3
@@ -50,12 +45,9 @@ zoneight234
 
 (def ^:private word-re (re-pattern (str "^(" (s/join "|" words) ")")))
 
-(comment
-  (re-find word-re "onetoothree"))
-
 (defn ^:private first-digit-in-range
   [s idxs]
-  (println "processing" s)
+  ;; better to use ?= lookahead assertion next time!
   (loop [i (first idxs)
          rem (rest idxs)]
     (let [s' (subs s i)]
@@ -72,10 +64,6 @@ zoneight234
             :else
             (recur (first rem) (rest rem))))))))
 
-(comment
-  (let [s "eight2threefour"]
-    (first-digit-in-range s (range (dec (count s)) -1 -1))))
-
 (defn part2
   [s]
   (let [xs (s/split-lines s)]
@@ -86,14 +74,3 @@ zoneight234
                 (+ acc (read-string (str first-digit last-digit)))))
             0
             xs)))
-
-(comment
-  (part2 
-   "4skbhsbtqc"
-))
-
-(comment
-  (part2 (-> "day-1-2.txt"
-             io/resource
-             slurp
-             s/trim)))
