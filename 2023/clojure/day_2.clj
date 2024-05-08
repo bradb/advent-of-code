@@ -18,20 +18,6 @@ Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red
 Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red
 Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green")
 
-
-(comment
-  (let [s "Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green"
-        colour->min (reduce
-                     (fn [c->m [_ n c]]
-                       (let [m (get c->m c)
-                             v (read-string n)]
-                         (if (> v m)
-                           (assoc c->m c v)
-                           c->m)))
-                     {"red" 0, "green" 0, "blue" 0}
-                     (re-seq #"(\d+) (blue|red|green)" s))]
-    colour->min))
-
 (defn part1
   [xs]
   (let [invalid? (fn [[_ n c]]
@@ -64,16 +50,6 @@ Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green")
            (* red green blue))))
 
 (comment
-  (let [s "Game 1: 3 blue, 14 red; 1 red, 2 green, 6 blue; 2 green"]
-    (some (fn invalid? [[_ n c]]
-            (> (read-string n) (get colour->limit c)))
-          (re-seq #"(\d+) (blue|red|green)" s))))
-
-(comment
-  (let [s "Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green"]
-    (re-seq #"(\d+) (blue|red|green)" s)))
-
-(comment
   (= 2268
      (-> (io/resource "day-2-1.txt")
          slurp
@@ -81,9 +57,9 @@ Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green")
          part1)))
 
 (comment
-  (-> (io/resource "day-2-2.txt")
-      slurp
-      s/split-lines
-      part2);; => 63542
-)
+  (= 63542
+     (-> (io/resource "day-2-2.txt")
+         slurp
+         s/split-lines
+         part2)))
 
