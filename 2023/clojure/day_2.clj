@@ -21,12 +21,12 @@ Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green")
 (defn part1
   [xs]
   (let [invalid? (fn [[_ n c]]
-                   (> (read-string n) (get colour->limit c)))]
+                   (> (Integer/parseInt n) (get colour->limit c)))]
     (reduce (fn [acc x]
               (let [[_ id] (re-find #"Game (\d+)" x)]
                 (if (some invalid? (re-seq #"(\d+) (blue|red|green)" x))
                   acc
-                  (+ acc (read-string id)))))
+                  (+ acc (Integer/parseInt id)))))
             0
             xs)))
 
@@ -39,10 +39,8 @@ Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green")
                       (fn mins
                         [c->m [_ n c]]
                         (let [m (get c->m c)
-                              v (read-string n)]
-                          (if (> v m)
-                            (assoc c->m c v)
-                            c->m)))
+                              v (Integer/parseInt n)]
+                          (assoc c->m c (max m v))))
                       {"red" 0, "green" 0, "blue" 0}
                       (re-seq #"(\d+) (blue|red|green)" x))
 
